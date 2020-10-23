@@ -5,7 +5,7 @@ steps:
 # Pull the docker compose
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['pull', 'docker/compose:1.23.2']
-- id: 'docker-image-build-for-gcr'
+- id: 'docker-image-build-gcr'
   name: 'gcr.io/cloud-builders/docker'
   args: [
         'build', 
@@ -16,7 +16,7 @@ steps:
 - id: 'docker-image-push-gcr'
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/dockerfile-example-image:0.1']
-  waitFor: ['docker-image-build-for-gcr']
+  waitFor: ['docker-image-build-gcr']
 
 # - id: 'compose up'
 #   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
