@@ -1,4 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/vntgcorp-demo1-cicd/node-app-image', '.' ]
-images: ['gcr.io/vntgcorp-demo1-cicd/node-app-image']
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/dockerfile-example-image', '.' ]
+images: 
+- 'gcr.io/$PROJECT_ID/dockerfile-example-image'
+
