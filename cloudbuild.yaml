@@ -11,7 +11,7 @@ steps:
         'build', 
         '--tag=gcr.io/$PROJECT_ID/dockerfile-example-image:0.1',
         "-f", "backend/Dockerfile",
-        '.'
+        './backend'
         ]
 - id: 'docker-image-push-gcr'
   name: 'gcr.io/cloud-builders/docker'
@@ -39,6 +39,8 @@ steps:
         ]
 
 - name: "gcr.io/cloud-builders/gcloud"
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
   args: [
           "compute", "ssh",
           "tiger@web-instance", "--zone", "asia-northeast3-a",
@@ -47,6 +49,8 @@ steps:
         ]
 
 - name: "gcr.io/cloud-builders/gcloud"
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
   args: [
           "compute", "ssh",
           "tiger@web-instance", "--zone", "asia-northeast3-a",
@@ -54,6 +58,8 @@ steps:
           "cd /home/tiger/target/compose && docker-compose pull"
         ]
 - name: "gcr.io/cloud-builders/gcloud"
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
   args: [
           "compute", "ssh",
           "tiger@web-instance", "--zone", "asia-northeast3-a",
