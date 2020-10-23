@@ -43,23 +43,23 @@ steps:
           "compute", "ssh",
           "tiger@web-instance", "--zone", "asia-northeast3-a",
           "--command",
-          "cd /home/tiger/target/compose && chmod +x docker-compose.sh && ./docker-compose.sh down"
+          "cd /home/tiger/target/compose && chmod +x docker-compose.sh && docker-compose down"
         ]
 
-# - name: "gcr.io/cloud-builders/gcloud"
-#   args: [
-#           "compute", "ssh",
-#           "tiger@web-instance", "--zone", "asia-northeast3-a",
-#           "--command",
-#           "cd /home/tiger/target/compose && ./docker-compose.sh pull"
-#         ]
-# - name: "gcr.io/cloud-builders/gcloud"
-#   args: [
-#           "compute", "ssh",
-#           "tiger@web-instance", "--zone", "asia-northeast3-a",
-#           "--command",
-#           "cd /home/tiger/target/compose && ./docker-compose.sh up -d"
-#         ]
+- name: "gcr.io/cloud-builders/gcloud"
+  args: [
+          "compute", "ssh",
+          "tiger@web-instance", "--zone", "asia-northeast3-a",
+          "--command",
+          "cd /home/tiger/target/compose && docker-compose pull"
+        ]
+- name: "gcr.io/cloud-builders/gcloud"
+  args: [
+          "compute", "ssh",
+          "tiger@web-instance", "--zone", "asia-northeast3-a",
+          "--command",
+          "cd /home/tiger/target/compose && docker-compose up -d"
+        ]
 
 images:
 - "gcr.io/$PROJECT_ID/dockerfile-example-image:0.1"
