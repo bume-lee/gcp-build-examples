@@ -5,38 +5,46 @@ steps:
 # Pull the docker compose
 #- name: 'gcr.io/cloud-builders/docker'
 #  args: ['pull', 'docker/compose:1.23.2']
-
 - id: 'docker-image-build-for-gcr'
   name: 'gcr.io/cloud-builders/docker'
   args: [
         'build', 
-        '-t', 'gcr.io/$PROJECT_ID/dockerfile-example-image:0.1',
-        '.'
+        '--tag=gcr.io/$PROJECT_ID/dockerfile-example-image:0.1',
+        "-f", "backend/Dockerfile",
+        'backend'
         ]
-  
 - id: 'docker-image-push-gcr'
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/dockerfile-example-image:0.1']
   waitFor: ['docker-image-build-for-gcr']
 
+# - id: 'compose up'
+#   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
+#   entrypoint: '/bin/bash'
+#   args:
+#   - '-c'
+#   - |
+#     docker-compose up -d 
+#   env:
+#   - 'PROJECT_ID=$PROJECT_ID'
+#   waitFor: ['docker-image-push-gcr']
+
 - name: "gcr.io/cloud-builders/gcloud"
   args: [
           "compute", "scp",
-          # "--recurse", "compose",
+          '--project', '$PROJECT_ID',
+          "--zone", "asia-northeast3-a",
+          "--recurse", "compose",
           "tiger@web-instance:/home/tiger/target/",
-          "--zone", "asia-northeast3-a"
         ]
 
-# - name: "gcr.io/cloud-builders/gcloud"
-#   args: [
-#           "compute", "ssh",
-#           "tiger@web-instance", "--zone", "asia-northeast3-a",
-#           "--command",
-#           "cd /home/tiger/target/compose && ./docker-compose.sh down"
-#         ]
-# - id: "Running docker-compose"
-#   name: 'gcr.io/$PROJECT_ID/docker-compose'
-#   args: ['-f','docker-compose.yaml','up','-d','--build']
+- name: "gcr.io/cloud-builders/gcloud"
+  args: [
+          "compute", "ssh",
+          "tiger@web-instance", "--zone", "asia-northeast3-a",
+          "--command",
+          "cd /home/tiger/target/compose && ./docker-compose.sh down"
+        ]
 
 # - name: "gcr.io/cloud-builders/gcloud"
 #   args: [

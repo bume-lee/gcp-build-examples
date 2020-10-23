@@ -1,0 +1,5 @@
+version: "3.2"
+services:
+    backend:
+        image: gcr.io/${PROJECT_ID}/dockerfile-example-image:0.1
+ 
