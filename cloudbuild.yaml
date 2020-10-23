@@ -45,7 +45,7 @@ steps:
           "compute", "ssh",
           "tiger@web-instance", "--zone", "asia-northeast3-a",
           "--command",
-          "cd /home/tiger/target/compose && chmod +x docker-compose.sh && docker-compose down"
+          "cd /home/tiger/target/compose && docker-compose down"
         ]
 
 - name: "gcr.io/cloud-builders/gcloud"
